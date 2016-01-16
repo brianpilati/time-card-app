@@ -12,6 +12,12 @@ import CoreData
 class HoursViewController: UIViewController {
     var managedObjectContext: NSManagedObjectContext? = nil
     var hoursButton: UIButton = UIButton()
+    let hoursReportDisplayLabel: UILabel = UILabel()
+    let wagesReportDisplayLabel: UILabel = UILabel()
+    let startTimeDisplayLabel: UILabel? = UILabel()
+    let endTimeDisplayLabel: UILabel? = UILabel()
+    var secondsTimer: NSTimer? = nil
+    var employee: Employee?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +31,7 @@ class HoursViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.title = "\(mySingleton.getCurrentUserFirstName()) Hours"
         self.setHoursButtonTitle()
+        self.calculateTotalHoursWorked()
     }
     
     func buildLayout() {
@@ -62,12 +69,50 @@ class HoursViewController: UIViewController {
         return hoursView
     }
     
+    func calculateCurrentTimeWorked() {
+        endTimeDisplayLabel!.text = Int(NSDate().timeIntervalSinceDate((employee?.startTime!)!)).description
+    }
+    
+    func calculateTotalHoursWorked() {
+        let fetchRequest = NSFetchRequest()
+        let entity = NSEntityDescription.entityForName("Hours", inManagedObjectContext: self.managedObjectContext!)
+        fetchRequest.entity = entity
+        
+        fetchRequest.predicate = NSPredicate(format: "employeeId == %d", mySingleton.getCurrentUserId())
+        
+        do {
+            var totalHoursWorked: Int = 0
+            let hoursArray = try self.managedObjectContext!.executeFetchRequest(fetchRequest) as! [Hours]
+            for item in hoursArray {
+                let endTime: NSDate = item.endTime!
+                totalHoursWorked += Int(endTime.timeIntervalSinceDate(item.startTime!))
+            }
+            hoursReportDisplayLabel.text = (totalHoursWorked / 3600).description
+            let wages = (totalHoursWorked / 3600 ).description
+            wagesReportDisplayLabel.text = "$\(wages)"
+        } catch {
+            print("caught")
+        }
+        
+    }
+    
     func hoursButtonPressed(sender: UIButton) {
-        let employee: Employee = mySingleton.updateTime()
-        if (!employee.isEmployeeWorking) {
-            print("update time clock")
+        employee = mySingleton.updateTime()
+        if (employee!.isEmployeeWorking) {
+            startTimeDisplayLabel!.text = employee!.startTime.description
+            secondsTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "calculateCurrentTimeWorked", userInfo: nil, repeats: true)
+        } else {
+            Hours.addNewHours(self.managedObjectContext!, employee: employee!)
+            do {
+                try self.managedObjectContext!.save()
+            } catch {
+                abort()
+            }
+            self.calculateTotalHoursWorked()
+            secondsTimer?.invalidate()
         }
         self.setHoursButtonTitle()
+        
     }
     
     func buildHoursLayout() {
@@ -88,16 +133,16 @@ class HoursViewController: UIViewController {
     func buildHourLabel(labelText: String) -> UIView {
         let label = UILabel()
         label.text = labelText
-        label.textColor = UIColor.whiteColor()
-        label.backgroundColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
+        label.textColor = UIColor.blackColor()
+//        label.backgroundColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
+        label.backgroundColor = UIColor.whiteColor()
         label.textAlignment = .Center
         label.setSizeFont(20)
         label.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: UILayoutConstraintAxis.Vertical)
         return label
     }
     
-    func buildHourDisplay(labelText: String) -> UIView {
-        let label = UILabel()
+    func buildHourDisplay(labelText: String, label: UILabel) -> UIView {
         label.text = labelText
         label.textColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
         label.backgroundColor = UIColor.whiteColor()
@@ -109,8 +154,8 @@ class HoursViewController: UIViewController {
     
     func addStartHoursView() -> UIView {
         return self.buildHoursReportStackView([
-            self.buildHourLabel("Start Time"), buildHourDisplay("This Morning"),
-            self.buildHourLabel("End Time"), buildHourDisplay("This Evening"),
+            self.buildHourLabel("Start Time"), buildHourDisplay("", label: startTimeDisplayLabel!),
+            self.buildHourLabel("End Time"), buildHourDisplay("", label: endTimeDisplayLabel!),
             ])
     }
     
@@ -162,15 +207,24 @@ class HoursViewController: UIViewController {
         return label
     }
     
-    func buildReportDisplay(labelText: String) -> UIView {
-        let label = UILabel()
-        label.text = labelText
-        label.textColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
-        label.backgroundColor = UIColor.whiteColor()
-        label.textAlignment = .Center
-        label.setSizeFont(60)
-        label.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: UILayoutConstraintAxis.Vertical)
-        return label
+    func buildReportWagesDisplay(labelText: String) -> UIView {
+        wagesReportDisplayLabel.text = labelText
+        wagesReportDisplayLabel.textColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
+        wagesReportDisplayLabel.backgroundColor = UIColor.whiteColor()
+        wagesReportDisplayLabel.textAlignment = .Center
+        wagesReportDisplayLabel.setSizeFont(120)
+        wagesReportDisplayLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: UILayoutConstraintAxis.Vertical)
+        return wagesReportDisplayLabel
+    }
+    
+    func buildReportHoursDisplay(labelText: String) -> UIView {
+        hoursReportDisplayLabel.text = labelText
+        hoursReportDisplayLabel.textColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
+        hoursReportDisplayLabel.backgroundColor = UIColor.whiteColor()
+        hoursReportDisplayLabel.textAlignment = .Center
+        hoursReportDisplayLabel.setSizeFont(120)
+        hoursReportDisplayLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: UILayoutConstraintAxis.Vertical)
+        return hoursReportDisplayLabel
     }
     
     func buildReportStackView(stackedViews: [UIView]) -> UIView {
@@ -186,11 +240,11 @@ class HoursViewController: UIViewController {
     }
     
     func addTotalMoneyView() -> UIView {
-        return self.buildReportStackView([self.buildReportLabel("Total Wages"), buildReportDisplay("$100")])
+        return self.buildReportStackView([self.buildReportLabel("Total Wages"), buildReportWagesDisplay("$100")])
     }
     
     func addTotalHoursView() -> UIView {
-        return self.buildReportStackView([self.buildReportLabel("Total Hours"), buildReportDisplay("106")])
+        return self.buildReportStackView([self.buildReportLabel("Total Hours"), buildReportHoursDisplay("106")])
     }
     
     func addReportStackView() -> UIView {
