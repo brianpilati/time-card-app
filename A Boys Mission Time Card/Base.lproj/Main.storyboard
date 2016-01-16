@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="e80-AD-0ti">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <scenes>
+        <!--Employee Table View Controller-->
+        <scene sceneID="w8i-p9-m7F">
+            <objects>
+                <tableViewController id="eek-CF-eoc" customClass="EmployeeTableViewController" customModule="A_Boys_Mission_Time_Card" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="Hir-ll-sYr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EmployeeTableViewCell" id="DgH-6C-HOa" customClass="EmployeeTableViewCell" customModule="A_Boys_Mission_Time_Card" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="90"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DgH-6C-HOa" id="dRc-fV-2v1">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="90"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e8A-cb-I37">
+                                            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2gr-fA-aar">
+                                            <rect key="frame" x="100" y="0.0" width="230" height="90"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6YM-f3-Vyo">
+                                            <rect key="frame" x="328" y="0.0" width="272" height="89"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="employeeImage" destination="e8A-cb-I37" id="bJx-HS-nZ7"/>
+                                    <outlet property="firstNameLabel" destination="2gr-fA-aar" id="iwx-BU-YhB"/>
+                                    <outlet property="lastNameLabel" destination="6YM-f3-Vyo" id="9vq-ci-Avf"/>
+                                    <segue destination="nSw-6c-idp" kind="show" identifier="showEmployee" id="ho2-5N-JYt"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="eek-CF-eoc" id="Fme-DH-Viz"/>
+                            <outlet property="delegate" destination="eek-CF-eoc" id="OAp-G0-9RV"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xZ7-zv-Xbu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-718" y="-759"/>
+        </scene>
+        <!--Employee View Controller-->
+        <scene sceneID="2pb-XJ-9Ea">
+            <objects>
+                <viewController id="nSw-6c-idp" customClass="EmployeeViewController" customModule="A_Boys_Mission_Time_Card" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4UV-lo-8Xs"/>
+                        <viewControllerLayoutGuide type="bottom" id="GEp-Vn-2F6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JLn-Uz-CbY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Employee" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsw-kT-0Fn">
+                                <rect key="frame" x="226" y="322" width="75" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="NdX-9O-FkI"/>
+                    <connections>
+                        <outlet property="firstNameLabel" destination="fsw-kT-0Fn" id="WqZ-wA-jbk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9d4-TZ-RzZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936" y="-703"/>
+        </scene>
+        <!--Select Employee View Controller-->
+        <scene sceneID="aku-xu-pJz">
+            <objects>
+                <viewController id="xI0-dJ-g6U" customClass="SelectEmployeeViewController" customModule="A_Boys_Mission_Time_Card" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RaE-nR-gCg"/>
+                        <viewControllerLayoutGuide type="bottom" id="qYp-VM-7mk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pfP-A2-tGs">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N4k-nI-2zo">
+                                <rect key="frame" x="9" y="222" width="600" height="216"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ov1-5Z-CSk"/>
+                    <connections>
+                        <outlet property="pickerView" destination="N4k-nI-2zo" id="EOe-xR-dQ4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WzB-zi-hdG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-708" y="425"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kSc-u9-kl2">
+            <objects>
+                <navigationController id="e80-AD-0ti" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rpj-1Z-CYc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="mfr-ww-PQ0" kind="relationship" relationship="rootViewController" id="GYQ-LD-fU5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CWZ-Ry-whW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2804" y="-81"/>
+        </scene>
+        <!--Hours View Controller-->
+        <scene sceneID="0oE-O5-oS6">
+            <objects>
+                <viewController storyboardIdentifier="mainViewController" id="mfr-ww-PQ0" customClass="HoursViewController" customModule="A_Boys_Mission_Time_Card" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="qhZ-R0-zCl"/>
+                    <connections>
+                        <segue destination="xI0-dJ-g6U" kind="show" identifier="showSelectEmployees" id="I8W-24-y6J"/>
+                        <segue destination="eek-CF-eoc" kind="show" identifier="showEmployees" id="t7W-Og-2UC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ive-ku-o5P" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1726" y="-87"/>
+        </scene>
+    </scenes>
+</document>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Automatic">
+    <entity name="Employees" representedClassName=".Employees" syncable="YES">
+        <attribute name="employeeId" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="newRelationship" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Hours" inverseName="newRelationship" inverseEntity="Hours" syncable="YES"/>
+    </entity>
+    <entity name="Hours" syncable="YES">
+        <attribute name="employeeId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="endTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="newRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Employees" inverseName="newRelationship" inverseEntity="Employees" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Employees" positionX="-470" positionY="-96" width="128" height="118"/>
+        <element name="Hours" positionX="-38" positionY="-36" width="128" height="103"/>
+    </elements>
+</model>
