@@ -62,7 +62,6 @@ class EmployeeTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        print(segue.identifier)
         if (segue.identifier == "showEmployee") {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let employee = self.fetchedResultsController.objectAtIndexPath(indexPath)

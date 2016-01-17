@@ -18,6 +18,11 @@
 		612E96571C4994E100C21FE2 /* SelectEmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612E96561C4994E100C21FE2 /* SelectEmployeeViewController.swift */; };
 		612E96591C4998D700C21FE2 /* EmployeeSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612E96581C4998D700C21FE2 /* EmployeeSingleton.swift */; };
 		614ACEF61C4967ED00FCB278 /* Employees+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614ACEF41C4967ED00FCB278 /* Employees+CoreDataProperties.swift */; };
+		6175DFEE1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175DFED1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift */; };
+		6175DFF01C4B1119000F8CF0 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175DFEF1C4B1119000F8CF0 /* Timer.swift */; };
+		6175DFF81C4B20BF000F8CF0 /* StartHourLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175DFF71C4B20BF000F8CF0 /* StartHourLabel.swift */; };
+		6175DFFA1C4B3705000F8CF0 /* EndHourLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175DFF91C4B3705000F8CF0 /* EndHourLabel.swift */; };
+		6175DFFC1C4B40F5000F8CF0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175DFFB1C4B40F5000F8CF0 /* Helpers.swift */; };
 		6178334E1C49BAF700C1EEB6 /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6178334D1C49BAF700C1EEB6 /* Employee.swift */; };
 		617833521C49BE1400C1EEB6 /* SingleViewCoreData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6178334F1C49BE1400C1EEB6 /* SingleViewCoreData.sqlite */; };
 		617833531C49BE1400C1EEB6 /* SingleViewCoreData.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = 617833501C49BE1400C1EEB6 /* SingleViewCoreData.sqlite-shm */; };
@@ -60,7 +65,12 @@
 		612E96561C4994E100C21FE2 /* SelectEmployeeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectEmployeeViewController.swift; sourceTree = "<group>"; };
 		612E96581C4998D700C21FE2 /* EmployeeSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeSingleton.swift; sourceTree = "<group>"; };
 		614ACEF41C4967ED00FCB278 /* Employees+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Employees+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		6178334D1C49BAF700C1EEB6 /* Employee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
+		6175DFED1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeHoursTableViewCell.swift; sourceTree = "<group>"; };
+		6175DFEF1C4B1119000F8CF0 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		6175DFF71C4B20BF000F8CF0 /* StartHourLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartHourLabel.swift; sourceTree = "<group>"; };
+		6175DFF91C4B3705000F8CF0 /* EndHourLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndHourLabel.swift; sourceTree = "<group>"; };
+		6175DFFB1C4B40F5000F8CF0 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		6178334D1C49BAF700C1EEB6 /* Employee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Employee.swift; path = ../Employee.swift; sourceTree = "<group>"; };
 		6178334F1C49BE1400C1EEB6 /* SingleViewCoreData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SingleViewCoreData.sqlite; sourceTree = "<group>"; };
 		617833501C49BE1400C1EEB6 /* SingleViewCoreData.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SingleViewCoreData.sqlite-shm"; sourceTree = "<group>"; };
 		617833511C49BE1400C1EEB6 /* SingleViewCoreData.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SingleViewCoreData.sqlite-wal"; sourceTree = "<group>"; };
@@ -104,14 +114,72 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		61FEC94B1C46C25D00062552 = {
+		6175DFF11C4B1E2C000F8CF0 /* Employees */ = {
+			isa = PBXGroup;
+			children = (
+				612E96561C4994E100C21FE2 /* SelectEmployeeViewController.swift */,
+				612E96581C4998D700C21FE2 /* EmployeeSingleton.swift */,
+				6116F4E11C470E9F00AF4A3B /* EmployeeViewController.swift */,
+				6116F4DB1C46FF7400AF4A3B /* EmployeeTableViewCell.swift */,
+				6175DFED1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift */,
+				6116F4D91C46FF0C00AF4A3B /* EmployeeTableViewController.swift */,
+			);
+			name = Employees;
+			sourceTree = "<group>";
+		};
+		6175DFF21C4B1E91000F8CF0 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				6175DFEF1C4B1119000F8CF0 /* Timer.swift */,
+				6175DFFB1C4B40F5000F8CF0 /* Helpers.swift */,
+				6178334D1C49BAF700C1EEB6 /* Employee.swift */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
+		6175DFF31C4B1EE7000F8CF0 /* ExtendedClasses */ = {
+			isa = PBXGroup;
+			children = (
+				6175DFF71C4B20BF000F8CF0 /* StartHourLabel.swift */,
+				6175DFF91C4B3705000F8CF0 /* EndHourLabel.swift */,
+				612E779C1C485D250049D97B /* LabelExtended.swift */,
+			);
+			name = ExtendedClasses;
+			sourceTree = "<group>";
+		};
+		6175DFF41C4B1EF7000F8CF0 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				6178334F1C49BE1400C1EEB6 /* SingleViewCoreData.sqlite */,
+				617833501C49BE1400C1EEB6 /* SingleViewCoreData.sqlite-shm */,
+				617833511C49BE1400C1EEB6 /* SingleViewCoreData.sqlite-wal */,
+			);
+			name = "Core Data";
+			sourceTree = "<group>";
+		};
+		6175DFF51C4B1F04000F8CF0 /* Hours */ = {
+			isa = PBXGroup;
+			children = (
+				6116F4D71C46FE5C00AF4A3B /* HoursViewController.swift */,
+			);
+			name = Hours;
+			sourceTree = "<group>";
+		};
+		6175DFF61C4B1F8A000F8CF0 /* CoreData Objects */ = {
 			isa = PBXGroup;
 			children = (
 				610D65CB1C4A04D600F64BA1 /* Hours+CoreDataProperties.swift */,
 				610D65CC1C4A04D600F64BA1 /* Hours.swift */,
-				6178334D1C49BAF700C1EEB6 /* Employee.swift */,
 				614ACEF41C4967ED00FCB278 /* Employees+CoreDataProperties.swift */,
 				6116F4DE1C47011600AF4A3B /* Employees.swift */,
+			);
+			name = "CoreData Objects";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		61FEC94B1C46C25D00062552 = {
+			isa = PBXGroup;
+			children = (
 				61FEC9561C46C25D00062552 /* A Boys Mission Time Card */,
 				61FEC96E1C46C25D00062552 /* A Boys Mission Time CardTests */,
 				61FEC9791C46C25D00062552 /* A Boys Mission Time CardUITests */,
@@ -132,19 +200,15 @@
 		61FEC9561C46C25D00062552 /* A Boys Mission Time Card */ = {
 			isa = PBXGroup;
 			children = (
-				6116F4D71C46FE5C00AF4A3B /* HoursViewController.swift */,
-				612E96581C4998D700C21FE2 /* EmployeeSingleton.swift */,
+				6175DFF51C4B1F04000F8CF0 /* Hours */,
 				61FEC9571C46C25D00062552 /* AppDelegate.swift */,
 				61FEC95B1C46C25D00062552 /* Main.storyboard */,
-				612E96561C4994E100C21FE2 /* SelectEmployeeViewController.swift */,
-				6116F4DB1C46FF7400AF4A3B /* EmployeeTableViewCell.swift */,
-				6116F4D91C46FF0C00AF4A3B /* EmployeeTableViewController.swift */,
-				612E779C1C485D250049D97B /* LabelExtended.swift */,
-				6116F4E11C470E9F00AF4A3B /* EmployeeViewController.swift */,
+				6175DFF21C4B1E91000F8CF0 /* Shared */,
+				6175DFF11C4B1E2C000F8CF0 /* Employees */,
+				6175DFF31C4B1EE7000F8CF0 /* ExtendedClasses */,
 				61FEC9611C46C25D00062552 /* Assets.xcassets */,
-				6178334F1C49BE1400C1EEB6 /* SingleViewCoreData.sqlite */,
-				617833501C49BE1400C1EEB6 /* SingleViewCoreData.sqlite-shm */,
-				617833511C49BE1400C1EEB6 /* SingleViewCoreData.sqlite-wal */,
+				6175DFF61C4B1F8A000F8CF0 /* CoreData Objects */,
+				6175DFF41C4B1EF7000F8CF0 /* Core Data */,
 				61FEC9631C46C25D00062552 /* LaunchScreen.storyboard */,
 				61FEC9661C46C25D00062552 /* Info.plist */,
 				61FEC95E1C46C25D00062552 /* A_Boys_Mission_Time_Card.xcdatamodeld */,
@@ -308,18 +372,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				6116F4E21C470E9F00AF4A3B /* EmployeeViewController.swift in Sources */,
+				6175DFFC1C4B40F5000F8CF0 /* Helpers.swift in Sources */,
+				6175DFF81C4B20BF000F8CF0 /* StartHourLabel.swift in Sources */,
 				6178334E1C49BAF700C1EEB6 /* Employee.swift in Sources */,
 				612E96591C4998D700C21FE2 /* EmployeeSingleton.swift in Sources */,
 				614ACEF61C4967ED00FCB278 /* Employees+CoreDataProperties.swift in Sources */,
 				6116F4D81C46FE5C00AF4A3B /* HoursViewController.swift in Sources */,
 				6116F4DA1C46FF0C00AF4A3B /* EmployeeTableViewController.swift in Sources */,
 				61FEC9581C46C25D00062552 /* AppDelegate.swift in Sources */,
+				6175DFF01C4B1119000F8CF0 /* Timer.swift in Sources */,
 				612E779D1C485D250049D97B /* LabelExtended.swift in Sources */,
 				612E96571C4994E100C21FE2 /* SelectEmployeeViewController.swift in Sources */,
 				610D65CD1C4A04D600F64BA1 /* Hours+CoreDataProperties.swift in Sources */,
 				6116F4E01C47011600AF4A3B /* Employees.swift in Sources */,
 				610D65CE1C4A04D600F64BA1 /* Hours.swift in Sources */,
 				61FEC9601C46C25D00062552 /* A_Boys_Mission_Time_Card.xcdatamodeld in Sources */,
+				6175DFEE1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift in Sources */,
+				6175DFFA1C4B3705000F8CF0 /* EndHourLabel.swift in Sources */,
 				6116F4DC1C46FF7400AF4A3B /* EmployeeTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

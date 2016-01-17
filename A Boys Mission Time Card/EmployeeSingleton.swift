@@ -46,6 +46,10 @@ class MySingleton {
         return self.currentEmployee.getFirstName() ?? ""
     }
     
+    func getCurrentEmployee() -> Employee {
+        return self.currentEmployee
+    }
+    
     func updateTime() -> Employee {
         if (isEmployeeWorking()) {
             self.currentEmployee.setEndTime()

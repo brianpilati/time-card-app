@@ -9,18 +9,21 @@
 import UIKit
 import CoreData
 
+
+
 class HoursViewController: UIViewController {
     var managedObjectContext: NSManagedObjectContext? = nil
     var hoursButton: UIButton = UIButton()
     let hoursReportDisplayLabel: UILabel = UILabel()
     let wagesReportDisplayLabel: UILabel = UILabel()
-    let startTimeDisplayLabel: UILabel? = UILabel()
-    let endTimeDisplayLabel: UILabel? = UILabel()
+    let startTimeDisplayLabel: StartHourLabel = StartHourLabel()
+    let endTimeDisplayLabel: EndHourLabel = EndHourLabel()
     var secondsTimer: NSTimer? = nil
-    var employee: Employee?
+    var employee: Employee = Employee()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //Timer().startWorkingTimer()
         
         self.stylizeNavigationController()
         
@@ -28,10 +31,30 @@ class HoursViewController: UIViewController {
         self.buildLayout()
     }
     
+    func notifyMe() {
+       print("notiferMy")
+    }
+    
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.title = "\(mySingleton.getCurrentUserFirstName()) Hours"
         self.setHoursButtonTitle()
         self.calculateTotalHoursWorked()
+        employee = mySingleton.getCurrentEmployee()
+        if(mySingleton.isEmployeeWorking()) {
+            self.startWorkingTimer()
+            startTimeDisplayLabel.startTime = employee.getStartTime()
+        } else {
+            startTimeDisplayLabel.text = ""
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "notifyMe", name: workingTimerNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        if(mySingleton.isEmployeeWorking()) {
+            self.stopWorkingTimer()
+        }
     }
     
     func buildLayout() {
@@ -70,7 +93,7 @@ class HoursViewController: UIViewController {
     }
     
     func calculateCurrentTimeWorked() {
-        endTimeDisplayLabel!.text = Int(NSDate().timeIntervalSinceDate((employee?.startTime!)!)).description
+        endTimeDisplayLabel.setTimeWorked((employee.startTime)!)
     }
     
     func calculateTotalHoursWorked() {
@@ -81,35 +104,55 @@ class HoursViewController: UIViewController {
         fetchRequest.predicate = NSPredicate(format: "employeeId == %d", mySingleton.getCurrentUserId())
         
         do {
-            var totalHoursWorked: Int = 0
+            var totalHoursWorked: Double = 0.0
             let hoursArray = try self.managedObjectContext!.executeFetchRequest(fetchRequest) as! [Hours]
             for item in hoursArray {
                 let endTime: NSDate = item.endTime!
-                totalHoursWorked += Int(endTime.timeIntervalSinceDate(item.startTime!))
+                totalHoursWorked += endTime.timeIntervalSinceDate(item.startTime!)
             }
-            hoursReportDisplayLabel.text = (totalHoursWorked / 3600).description
-            let wages = (totalHoursWorked / 3600 ).description
-            wagesReportDisplayLabel.text = "$\(wages)"
+            hoursReportDisplayLabel.text = Helpers().timeFormatted(Int(totalHoursWorked))
+            let formatter = NSNumberFormatter()
+            formatter.numberStyle = .CurrencyStyle
+            let wages:String = formatter.stringFromNumber(totalHoursWorked / 3600.0)!
+            wagesReportDisplayLabel.text = "\(wages)"
         } catch {
             print("caught")
         }
         
     }
     
+    func startWorkingTimer() {
+        secondsTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "calculateCurrentTimeWorked", userInfo: nil, repeats: true)
+    }
+    
+    func stopWorkingTimer() {
+        secondsTimer?.invalidate()
+    }
+    
     func hoursButtonPressed(sender: UIButton) {
+        let employeeName = employee.getFirstName()
+        let title = "\(employeeName), \(self.determineHoursButton())?"
+        let message = "You will be logging hours for \(employeeName). Are you sure?"
+        let alertView: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        alertView.addAction(UIAlertAction(title: "Continue", style: .Default, handler: { (alertAction) -> Void in self.recordHours(sender) }))
+        alertView.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        presentViewController(alertView, animated: true, completion: nil)
+    }
+    
+    func recordHours(sender: UIButton) {
         employee = mySingleton.updateTime()
-        if (employee!.isEmployeeWorking) {
-            startTimeDisplayLabel!.text = employee!.startTime.description
-            secondsTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "calculateCurrentTimeWorked", userInfo: nil, repeats: true)
+        if (employee.isEmployeeWorking) {
+            startTimeDisplayLabel.startTime = employee.startTime
+            self.startWorkingTimer()
         } else {
-            Hours.addNewHours(self.managedObjectContext!, employee: employee!)
+            Hours.addNewHours(self.managedObjectContext!, employee: employee)
             do {
                 try self.managedObjectContext!.save()
             } catch {
                 abort()
             }
             self.calculateTotalHoursWorked()
-            secondsTimer?.invalidate()
+            self.stopWorkingTimer()
         }
         self.setHoursButtonTitle()
         
@@ -142,20 +185,10 @@ class HoursViewController: UIViewController {
         return label
     }
     
-    func buildHourDisplay(labelText: String, label: UILabel) -> UIView {
-        label.text = labelText
-        label.textColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
-        label.backgroundColor = UIColor.whiteColor()
-        label.textAlignment = .Center
-        label.setSizeFont(20)
-        label.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: UILayoutConstraintAxis.Vertical)
-        return label
-    }
-    
     func addStartHoursView() -> UIView {
         return self.buildHoursReportStackView([
-            self.buildHourLabel("Start Time"), buildHourDisplay("", label: startTimeDisplayLabel!),
-            self.buildHourLabel("End Time"), buildHourDisplay("", label: endTimeDisplayLabel!),
+            self.buildHourLabel("Start Time"), startTimeDisplayLabel,
+            self.buildHourLabel("End Time"), endTimeDisplayLabel,
             ])
     }
     
@@ -212,7 +245,7 @@ class HoursViewController: UIViewController {
         wagesReportDisplayLabel.textColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
         wagesReportDisplayLabel.backgroundColor = UIColor.whiteColor()
         wagesReportDisplayLabel.textAlignment = .Center
-        wagesReportDisplayLabel.setSizeFont(120)
+        wagesReportDisplayLabel.setSizeFont(60)
         wagesReportDisplayLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: UILayoutConstraintAxis.Vertical)
         return wagesReportDisplayLabel
     }
@@ -222,7 +255,7 @@ class HoursViewController: UIViewController {
         hoursReportDisplayLabel.textColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
         hoursReportDisplayLabel.backgroundColor = UIColor.whiteColor()
         hoursReportDisplayLabel.textAlignment = .Center
-        hoursReportDisplayLabel.setSizeFont(120)
+        hoursReportDisplayLabel.setSizeFont(60)
         hoursReportDisplayLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: UILayoutConstraintAxis.Vertical)
         return hoursReportDisplayLabel
     }
@@ -314,5 +347,11 @@ class HoursViewController: UIViewController {
             let controller = segue.destinationViewController as! EmployeeTableViewController
             controller.managedObjectContext = self.managedObjectContext
         }
+    }
+    
+    // Mark: Delegation
+    
+    @IBAction func timerFinished() {
+        print("In the groove")
     }
 }

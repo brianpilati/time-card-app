@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 
+let workingTimerNotification = "DoThisPlease"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?

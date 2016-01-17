@@ -11,7 +11,7 @@ import Foundation
 class Employee {
     var employeeId: Int32 = 0
     var isEmployeeWorking: Bool = false
-    var firstName: String!
+    var firstName: String = ""
     var startTime: NSDate!
     var endTime: NSDate!
     
@@ -30,7 +30,7 @@ class Employee {
     }
     
     func getFirstName() -> String {
-        return self.firstName!
+        return self.firstName
     }
     
     func setStartTime() {
