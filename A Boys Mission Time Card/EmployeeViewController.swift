@@ -18,7 +18,7 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
     
     @IBOutlet weak var tableView: UITableView!
     
-    var detailItem: AnyObject? {
+    var employee: Employees? {
         didSet {
             // Update the view.
             self.configureView()
@@ -27,17 +27,24 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
     
     func configureView() {
         // Update the user interface for the detail item.
-        if let detail = self.detailItem {
+        if let employee: Employees = self.employee {
             if let label = self.firstNameLabel {
-                label.text = detail.valueForKey("firstName")!.description
+                label.text = employee.firstName
             }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let screenSize = UIScreen.mainScreen().bounds
+        let screenHeight = screenSize.height
+        let screenWidth = screenSize.width
+        
+        self.firstNameLabel.frame = CGRectMake(50, 35, screenWidth, 100)
+        self.tableView.frame = CGRectMake(0, 100, screenWidth, screenHeight - 300)
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
         self.configureView()
     }
 
@@ -86,6 +93,8 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
         cell.endTimeLabel?.text = object.endTime?.description
         let endTime: NSDate = object.endTime!
         cell.totalTimeLabel?.text = Int(endTime.timeIntervalSinceDate(object.startTime!)).description
+        cell.totalTimeLabel.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 400, 0, 400, cell.bounds.height)
+        cell.totalTimeLabel.textAlignment = NSTextAlignment.Center
     }
 
     var fetchedResultsController: NSFetchedResultsController {
@@ -101,7 +110,7 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
         // Set the batch size to a suitable number.
         fetchRequest.fetchBatchSize = 20
         
-        fetchRequest.predicate = NSPredicate(format: "employeeId == %d", mySingleton.getCurrentUserId())
+        fetchRequest.predicate = NSPredicate(format: "employeeId == %d", self.employee!.employeeId)
         
         // Edit the sort key as appropriate.
         let sortDescriptor = NSSortDescriptor(key: "startTime", ascending: true)
