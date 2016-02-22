@@ -17,7 +17,9 @@
 		612E779D1C485D250049D97B /* LabelExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612E779C1C485D250049D97B /* LabelExtended.swift */; };
 		612E96571C4994E100C21FE2 /* SelectEmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612E96561C4994E100C21FE2 /* SelectEmployeeViewController.swift */; };
 		612E96591C4998D700C21FE2 /* EmployeeSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612E96581C4998D700C21FE2 /* EmployeeSingleton.swift */; };
+		6148E6241C5937C600744023 /* EmployeeHoursTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6148E6231C5937C600744023 /* EmployeeHoursTableFooterView.swift */; };
 		614ACEF61C4967ED00FCB278 /* Employees+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614ACEF41C4967ED00FCB278 /* Employees+CoreDataProperties.swift */; };
+		6166204F1C583E5C0041065D /* EmployeeHoursTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6166204E1C583E5C0041065D /* EmployeeHoursTableViewHeaderView.swift */; };
 		6175DFEE1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175DFED1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift */; };
 		6175DFF01C4B1119000F8CF0 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175DFEF1C4B1119000F8CF0 /* Timer.swift */; };
 		6175DFF81C4B20BF000F8CF0 /* StartHourLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6175DFF71C4B20BF000F8CF0 /* StartHourLabel.swift */; };
@@ -64,7 +66,9 @@
 		612E779C1C485D250049D97B /* LabelExtended.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelExtended.swift; sourceTree = "<group>"; };
 		612E96561C4994E100C21FE2 /* SelectEmployeeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectEmployeeViewController.swift; sourceTree = "<group>"; };
 		612E96581C4998D700C21FE2 /* EmployeeSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeSingleton.swift; sourceTree = "<group>"; };
+		6148E6231C5937C600744023 /* EmployeeHoursTableFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeHoursTableFooterView.swift; sourceTree = "<group>"; };
 		614ACEF41C4967ED00FCB278 /* Employees+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Employees+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		6166204E1C583E5C0041065D /* EmployeeHoursTableViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeHoursTableViewHeaderView.swift; sourceTree = "<group>"; };
 		6175DFED1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeHoursTableViewCell.swift; sourceTree = "<group>"; };
 		6175DFEF1C4B1119000F8CF0 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		6175DFF71C4B20BF000F8CF0 /* StartHourLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartHourLabel.swift; sourceTree = "<group>"; };
@@ -114,15 +118,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6175DFF11C4B1E2C000F8CF0 /* Employees */ = {
+		6148E6201C59372500744023 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				6148E6231C5937C600744023 /* EmployeeHoursTableFooterView.swift */,
+				6166204E1C583E5C0041065D /* EmployeeHoursTableViewHeaderView.swift */,
+				6175DFED1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift */,
+				6116F4DB1C46FF7400AF4A3B /* EmployeeTableViewCell.swift */,
+			);
+			name = TableViewCells;
+			sourceTree = "<group>";
+		};
+		6148E6211C59375E00744023 /* Select Employee */ = {
 			isa = PBXGroup;
 			children = (
 				612E96561C4994E100C21FE2 /* SelectEmployeeViewController.swift */,
-				612E96581C4998D700C21FE2 /* EmployeeSingleton.swift */,
+			);
+			name = "Select Employee";
+			sourceTree = "<group>";
+		};
+		6148E6221C59377C00744023 /* Employee */ = {
+			isa = PBXGroup;
+			children = (
 				6116F4E11C470E9F00AF4A3B /* EmployeeViewController.swift */,
-				6116F4DB1C46FF7400AF4A3B /* EmployeeTableViewCell.swift */,
-				6175DFED1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift */,
+				6148E6201C59372500744023 /* TableViewCells */,
+			);
+			name = Employee;
+			sourceTree = "<group>";
+		};
+		6175DFF11C4B1E2C000F8CF0 /* Employees */ = {
+			isa = PBXGroup;
+			children = (
+				612E96581C4998D700C21FE2 /* EmployeeSingleton.swift */,
 				6116F4D91C46FF0C00AF4A3B /* EmployeeTableViewController.swift */,
+				6148E6211C59375E00744023 /* Select Employee */,
+				6148E6221C59377C00744023 /* Employee */,
 			);
 			name = Employees;
 			sourceTree = "<group>";
@@ -376,8 +406,10 @@
 				6175DFF81C4B20BF000F8CF0 /* StartHourLabel.swift in Sources */,
 				6178334E1C49BAF700C1EEB6 /* Employee.swift in Sources */,
 				612E96591C4998D700C21FE2 /* EmployeeSingleton.swift in Sources */,
+				6166204F1C583E5C0041065D /* EmployeeHoursTableViewHeaderView.swift in Sources */,
 				614ACEF61C4967ED00FCB278 /* Employees+CoreDataProperties.swift in Sources */,
 				6116F4D81C46FE5C00AF4A3B /* HoursViewController.swift in Sources */,
+				6148E6241C5937C600744023 /* EmployeeHoursTableFooterView.swift in Sources */,
 				6116F4DA1C46FF0C00AF4A3B /* EmployeeTableViewController.swift in Sources */,
 				61FEC9581C46C25D00062552 /* AppDelegate.swift in Sources */,
 				6175DFF01C4B1119000F8CF0 /* Timer.swift in Sources */,

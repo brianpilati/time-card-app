@@ -13,9 +13,9 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
     var _fetchedResultsController: NSFetchedResultsController? = nil
     var toolbar: UIToolbar = UIToolbar()
     var managedObjectContext: NSManagedObjectContext? = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    var totalTimeWorked: Double = 0
     
     @IBOutlet weak var firstNameLabel: UILabel!
-    
     @IBOutlet weak var tableView: UITableView!
     
     var employee: Employees? {
@@ -40,10 +40,14 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
         let screenHeight = screenSize.height
         let screenWidth = screenSize.width
         
-        self.firstNameLabel.frame = CGRectMake(50, 35, screenWidth, 100)
-        self.tableView.frame = CGRectMake(0, 100, screenWidth, screenHeight - 300)
+        self.firstNameLabel.frame = CGRectMake(50, 35, 200, 100)
+        
+        self.tableView.frame = CGRectMake(0, 100, screenWidth, screenHeight - 100)
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        
+        getResults()
         
         self.configureView()
     }
@@ -89,12 +93,41 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
     
     func configureCell(cell: EmployeeHoursTableViewCell, atIndexPath indexPath: NSIndexPath) {
         let object: Hours = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Hours
-        cell.startTimeLabel?.text = object.startTime?.description
-        cell.endTimeLabel?.text = object.endTime?.description
+        cell.startTimeLabel.text = NSDateFormatter.localizedStringFromDate(object.startTime!, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
+        cell.endTimeLabel.text = NSDateFormatter.localizedStringFromDate(object.endTime!, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
         let endTime: NSDate = object.endTime!
-        cell.totalTimeLabel?.text = Int(endTime.timeIntervalSinceDate(object.startTime!)).description
-        cell.totalTimeLabel.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 400, 0, 400, cell.bounds.height)
-        cell.totalTimeLabel.textAlignment = NSTextAlignment.Center
+        cell.totalTimeLabel.text = Int(endTime.timeIntervalSinceDate(object.startTime!)).description
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let  headerCell = tableView.dequeueReusableCellWithIdentifier("EmployeeHoursTableHeaderViewCell") as! EmployeeHoursTableViewHeaderView
+        headerCell.backgroundColor = UIColor.lightGrayColor()
+        headerCell.startTimeLabel.text = "Start Time"
+        headerCell.endTimeLabel.text = "End Time"
+        headerCell.totalTimeLabel.text = "Total Time Worked"
+        
+        return headerCell
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let  footerCell = tableView.dequeueReusableCellWithIdentifier("EmployeeHoursTableFooterViewCell") as! EmployeeHoursTableFooterView
+        footerCell.backgroundColor = UIColor.lightGrayColor()
+        footerCell.totalTimeLabel.text = "Total Time Worked"
+        footerCell.totalTimeDisplayLabel.text = Helpers().timeFormatted(Int(totalTimeWorked))
+        
+        return footerCell
+    }
+    
+    func tableView(tableView: UITableView, heightForCellInSection section: Int) -> CGFloat {
+        return 50.0
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 50.0
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50.0
     }
 
     var fetchedResultsController: NSFetchedResultsController {
@@ -119,7 +152,7 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
         
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".
-        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: "Master")
+        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         
@@ -133,5 +166,36 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
         }
         
         return _fetchedResultsController!
+    }
+    
+    func getResults() {
+        let fetchRequest = NSFetchRequest(entityName: "Hours")
+        fetchRequest.predicate = NSPredicate(format: "employeeId == %d", self.employee!.employeeId)
+        
+        fetchRequest.resultType = .DictionaryResultType
+        
+        var expressionDescriptions = [AnyObject]()
+        
+        // Create an expression description for our SoldCount column
+        let expressionDescription = NSExpressionDescription()
+        // Name the column
+        expressionDescription.name = "timeWorked"
+        let endTime = NSExpression(forKeyPath: "endTime")
+        let startTime = NSExpression(forKeyPath: "startTime")
+        expressionDescription.expression = NSExpression(forFunction: "from:subtract:", arguments:[endTime, startTime])
+        expressionDescription.expressionResultType = .DoubleAttributeType
+        expressionDescriptions.append(expressionDescription)
+        
+        fetchRequest.propertiesToFetch = expressionDescriptions
+        let sort = NSSortDescriptor(key: "employeeId", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        
+        do {
+            let results = try self.managedObjectContext?.executeFetchRequest(fetchRequest) as NSArray?
+            totalTimeWorked = (results as! AnyObject).valueForKeyPath("@sum.timeWorked") as! Double
+        } catch {
+            print("error")
+            abort()
+        }
     }
 }

@@ -1,17 +1,19 @@
 //
-//  EmployeeHoursTableViewCell.swift
+//  EmployeeHoursTableViewHeaderView.swift
 //  A Boys Mission Time Card
 //
-//  Created by Brian Pilati on 1/16/16.
+//  Created by Brian Pilati on 1/26/16.
 //  Copyright © 2016 Brian Pilati. All rights reserved.
 //
 
 import UIKit
 
-class EmployeeHoursTableViewCell: UITableViewCell {
+class EmployeeHoursTableViewHeaderView: UITableViewCell {
+    
     let startTimeLabel: UILabel = UILabel()
     let endTimeLabel: UILabel = UILabel()
     let totalTimeLabel: UILabel = UILabel()
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,10 +29,5 @@ class EmployeeHoursTableViewCell: UITableViewCell {
         totalTimeLabel.frame = CGRectMake(UIScreen.mainScreen().bounds.width * 2 / 3, 0, UIScreen.mainScreen().bounds.width/3, 50)
         totalTimeLabel.textAlignment = NSTextAlignment.Center
     }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
+
 }
