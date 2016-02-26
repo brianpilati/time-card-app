@@ -14,6 +14,10 @@
 		6116F4DC1C46FF7400AF4A3B /* EmployeeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6116F4DB1C46FF7400AF4A3B /* EmployeeTableViewCell.swift */; };
 		6116F4E01C47011600AF4A3B /* Employees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6116F4DE1C47011600AF4A3B /* Employees.swift */; };
 		6116F4E21C470E9F00AF4A3B /* EmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6116F4E11C470E9F00AF4A3B /* EmployeeViewController.swift */; };
+		61235C921C7F71A4002F96DA /* TimeSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61235C911C7F71A4002F96DA /* TimeSingleton.swift */; };
+		61235C941C7F7C22002F96DA /* SelectDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61235C931C7F7C22002F96DA /* SelectDateViewController.swift */; };
+		61235C981C7F95D4002F96DA /* UIViewExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61235C971C7F95D4002F96DA /* UIViewExtended.swift */; };
+		61235C9A1C7FB0A3002F96DA /* EditEmployeeHoursTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61235C991C7FB0A3002F96DA /* EditEmployeeHoursTableViewController.swift */; };
 		612E779D1C485D250049D97B /* LabelExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612E779C1C485D250049D97B /* LabelExtended.swift */; };
 		612E96571C4994E100C21FE2 /* SelectEmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612E96561C4994E100C21FE2 /* SelectEmployeeViewController.swift */; };
 		612E96591C4998D700C21FE2 /* EmployeeSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612E96581C4998D700C21FE2 /* EmployeeSingleton.swift */; };
@@ -63,6 +67,10 @@
 		6116F4DB1C46FF7400AF4A3B /* EmployeeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeTableViewCell.swift; sourceTree = "<group>"; };
 		6116F4DE1C47011600AF4A3B /* Employees.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Employees.swift; path = "A Boys Mission Time Card/Employees.swift"; sourceTree = "<group>"; };
 		6116F4E11C470E9F00AF4A3B /* EmployeeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeViewController.swift; sourceTree = "<group>"; };
+		61235C911C7F71A4002F96DA /* TimeSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSingleton.swift; sourceTree = "<group>"; };
+		61235C931C7F7C22002F96DA /* SelectDateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectDateViewController.swift; sourceTree = "<group>"; };
+		61235C971C7F95D4002F96DA /* UIViewExtended.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtended.swift; sourceTree = "<group>"; };
+		61235C991C7FB0A3002F96DA /* EditEmployeeHoursTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditEmployeeHoursTableViewController.swift; sourceTree = "<group>"; };
 		612E779C1C485D250049D97B /* LabelExtended.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelExtended.swift; sourceTree = "<group>"; };
 		612E96561C4994E100C21FE2 /* SelectEmployeeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectEmployeeViewController.swift; sourceTree = "<group>"; };
 		612E96581C4998D700C21FE2 /* EmployeeSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeSingleton.swift; sourceTree = "<group>"; };
@@ -118,6 +126,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		61235C951C7F7C59002F96DA /* Select Date */ = {
+			isa = PBXGroup;
+			children = (
+				61235C931C7F7C22002F96DA /* SelectDateViewController.swift */,
+			);
+			name = "Select Date";
+			sourceTree = "<group>";
+		};
+		61235C961C7F80F5002F96DA /* Time Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				61235C911C7F71A4002F96DA /* TimeSingleton.swift */,
+			);
+			name = "Time Singleton";
+			sourceTree = "<group>";
+		};
+		61235C9B1C7FB0C7002F96DA /* Edit Employee Hours */ = {
+			isa = PBXGroup;
+			children = (
+				61235C991C7FB0A3002F96DA /* EditEmployeeHoursTableViewController.swift */,
+			);
+			name = "Edit Employee Hours";
+			sourceTree = "<group>";
+		};
 		6148E6201C59372500744023 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +173,9 @@
 			isa = PBXGroup;
 			children = (
 				6116F4E11C470E9F00AF4A3B /* EmployeeViewController.swift */,
+				61235C9B1C7FB0C7002F96DA /* Edit Employee Hours */,
+				61235C961C7F80F5002F96DA /* Time Singleton */,
+				61235C951C7F7C59002F96DA /* Select Date */,
 				6148E6201C59372500744023 /* TableViewCells */,
 			);
 			name = Employee;
@@ -173,6 +208,7 @@
 				6175DFF71C4B20BF000F8CF0 /* StartHourLabel.swift */,
 				6175DFF91C4B3705000F8CF0 /* EndHourLabel.swift */,
 				612E779C1C485D250049D97B /* LabelExtended.swift */,
+				61235C971C7F95D4002F96DA /* UIViewExtended.swift */,
 			);
 			name = ExtendedClasses;
 			sourceTree = "<group>";
@@ -402,11 +438,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6116F4E21C470E9F00AF4A3B /* EmployeeViewController.swift in Sources */,
+				61235C981C7F95D4002F96DA /* UIViewExtended.swift in Sources */,
 				6175DFFC1C4B40F5000F8CF0 /* Helpers.swift in Sources */,
 				6175DFF81C4B20BF000F8CF0 /* StartHourLabel.swift in Sources */,
 				6178334E1C49BAF700C1EEB6 /* Employee.swift in Sources */,
 				612E96591C4998D700C21FE2 /* EmployeeSingleton.swift in Sources */,
 				6166204F1C583E5C0041065D /* EmployeeHoursTableViewHeaderView.swift in Sources */,
+				61235C921C7F71A4002F96DA /* TimeSingleton.swift in Sources */,
 				614ACEF61C4967ED00FCB278 /* Employees+CoreDataProperties.swift in Sources */,
 				6116F4D81C46FE5C00AF4A3B /* HoursViewController.swift in Sources */,
 				6148E6241C5937C600744023 /* EmployeeHoursTableFooterView.swift in Sources */,
@@ -418,7 +456,9 @@
 				610D65CD1C4A04D600F64BA1 /* Hours+CoreDataProperties.swift in Sources */,
 				6116F4E01C47011600AF4A3B /* Employees.swift in Sources */,
 				610D65CE1C4A04D600F64BA1 /* Hours.swift in Sources */,
+				61235C9A1C7FB0A3002F96DA /* EditEmployeeHoursTableViewController.swift in Sources */,
 				61FEC9601C46C25D00062552 /* A_Boys_Mission_Time_Card.xcdatamodeld in Sources */,
+				61235C941C7F7C22002F96DA /* SelectDateViewController.swift in Sources */,
 				6175DFEE1C4AFFDB000F8CF0 /* EmployeeHoursTableViewCell.swift in Sources */,
 				6175DFFA1C4B3705000F8CF0 /* EndHourLabel.swift in Sources */,
 				6116F4DC1C46FF7400AF4A3B /* EmployeeTableViewCell.swift in Sources */,

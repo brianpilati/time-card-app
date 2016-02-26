@@ -8,8 +8,8 @@
 
 import Foundation
 
-class MySingleton {
-    static let mySingleton = MySingleton()
+class EmployeeSingleton {
+    static let employeeSingleton = EmployeeSingleton()
     
     var currentEmployee: Employee = Employee()
     var employees: [String: NSDate] = [String: NSDate]()
@@ -78,6 +78,6 @@ class MySingleton {
         self.loadCurrentUser()
     }
 }
-let mySingleton = MySingleton()
+let employeeSingleton = EmployeeSingleton()
 
 

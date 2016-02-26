@@ -36,11 +36,11 @@ class HoursViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationItem.title = "\(mySingleton.getCurrentUserFirstName()) Hours"
+        self.navigationItem.title = "\(employeeSingleton.getCurrentUserFirstName())'s Hours"
         self.setHoursButtonTitle()
         self.calculateTotalHoursWorked()
-        employee = mySingleton.getCurrentEmployee()
-        if(mySingleton.isEmployeeWorking()) {
+        employee = employeeSingleton.getCurrentEmployee()
+        if(employeeSingleton.isEmployeeWorking()) {
             self.startWorkingTimer()
             startTimeDisplayLabel.startTime = employee.getStartTime()
         } else {
@@ -52,7 +52,7 @@ class HoursViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        if(mySingleton.isEmployeeWorking()) {
+        if(employeeSingleton.isEmployeeWorking()) {
             self.stopWorkingTimer()
         }
     }
@@ -63,14 +63,14 @@ class HoursViewController: UIViewController {
     }
     
     func determineHoursButton() -> String {
-        return mySingleton.isEmployeeWorking() ? "Stop Working" : "Start Working"
+        return employeeSingleton.isEmployeeWorking() ? "Stop Working" : "Start Working"
     }
     
     func setHoursButtonTitle() {
         let greenColor: UIColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
         let redColor: UIColor = UIColor(red: 255.0/255.0, green: 0, blue: 0, alpha: 1.0)
         self.hoursButton.setTitle(determineHoursButton(), forState: .Normal)
-        self.hoursButton.backgroundColor = mySingleton.isEmployeeWorking() ? redColor : greenColor
+        self.hoursButton.backgroundColor = employeeSingleton.isEmployeeWorking() ? redColor : greenColor
     }
     
     func addHoursButton() -> UIView {
@@ -101,7 +101,7 @@ class HoursViewController: UIViewController {
         let entity = NSEntityDescription.entityForName("Hours", inManagedObjectContext: self.managedObjectContext!)
         fetchRequest.entity = entity
         
-        fetchRequest.predicate = NSPredicate(format: "employeeId == %d", mySingleton.getCurrentUserId())
+        fetchRequest.predicate = NSPredicate(format: "employeeId == %d AND startTime >= %@ AND endTime < %@", employeeSingleton.getCurrentUserId(), Helpers().getStartOfMonth(), Helpers().getEndOfMonth())
         
         do {
             var totalHoursWorked: Double = 0.0
@@ -140,7 +140,7 @@ class HoursViewController: UIViewController {
     }
     
     func recordHours(sender: UIButton) {
-        employee = mySingleton.updateTime()
+        employee = employeeSingleton.updateTime()
         if (employee.isEmployeeWorking) {
             startTimeDisplayLabel.startTime = employee.startTime
             self.startWorkingTimer()

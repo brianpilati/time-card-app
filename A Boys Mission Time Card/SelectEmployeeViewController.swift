@@ -24,7 +24,7 @@ class SelectEmployeeViewController: UIViewController, UIPickerViewDelegate {
         self.loadEmployeesData()
         
         for (index, item) in employeeArray.enumerate() {
-            if (item.employeeId == mySingleton.getCurrentUserId()) {
+            if (item.employeeId == employeeSingleton.getCurrentUserId()) {
                 pickerView.selectRow(index, inComponent: 0, animated: true)
             }
         }
@@ -78,7 +78,7 @@ class SelectEmployeeViewController: UIViewController, UIPickerViewDelegate {
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        mySingleton.setCurrentEmployee(employeeArray[row])
+        employeeSingleton.setCurrentEmployee(employeeArray[row])
     }
     
     func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
