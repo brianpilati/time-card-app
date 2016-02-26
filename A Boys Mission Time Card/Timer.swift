@@ -13,11 +13,6 @@ class Timer: NSNotificationCenter {
     
     override init() {
         super.init()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "notifyMe", name: workingTimerNotification, object: nil)
-    }
-
-    func notifyMe() {
-        print("notiferMy - 1")
     }
 
     func startWorkingTimer() {

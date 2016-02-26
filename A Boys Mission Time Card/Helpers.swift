@@ -29,4 +29,10 @@ class Helpers {
         endOfMonth.month = 1
         return calendar.dateByAddingComponents(endOfMonth, toDate: self.getStartOfMonth(), options: [])!
     }
+    
+    func getWages(totalHoursWorked: Double) -> String {
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = .CurrencyStyle
+        return formatter.stringFromNumber(totalHoursWorked / 3600.0)!
+    }
 }

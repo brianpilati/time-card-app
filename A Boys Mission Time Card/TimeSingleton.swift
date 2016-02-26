@@ -39,19 +39,27 @@ class TimeSingleton {
         currentEndTime = date
     }
     
-    func getFormattedDate(date: NSDate) -> String {
+    func getFormattedDate(date: NSDate, style: NSDateFormatterStyle = NSDateFormatterStyle.LongStyle) -> String {
         let formatter = NSDateFormatter()
-        formatter.dateStyle = NSDateFormatterStyle.LongStyle
+        formatter.dateStyle = style
         formatter.timeZone = NSTimeZone(name: "GMT")
         return formatter.stringFromDate(date)
     }
     
-    func getCurrentStartTimeString() -> String {
-        return self.getFormattedDate(self.getCurrentStartTime());
+    func getCurrentStartTimeString(style: NSDateFormatterStyle = NSDateFormatterStyle.LongStyle) -> String {
+        return self.getFormattedDate(self.getCurrentStartTime(), style: style);
     }
     
-    func getCurrentEndTimeString() -> String {
-        return self.getFormattedDate(self.getCurrentEndTime());
+    func getCurrentEndTimeString(style: NSDateFormatterStyle = NSDateFormatterStyle.LongStyle) -> String {
+        return self.getFormattedDate(self.getCurrentEndTime(), style: style);
+    }
+    
+    func getCurrentTime() -> String {
+        return self.getFormattedDate(NSDate())
+    }
+    
+    func getPayRange() -> String {
+        return "\(self.getCurrentStartTimeString(NSDateFormatterStyle.ShortStyle)) - \(self.getCurrentEndTimeString(NSDateFormatterStyle.ShortStyle))"
     }
 }
 let timeSingleton = TimeSingleton()

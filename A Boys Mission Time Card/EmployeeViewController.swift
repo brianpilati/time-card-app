@@ -69,10 +69,14 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
         self.navigationController?.navigationBar.barTintColor = UIColor.blueColor()
     }
     
+    func segueToTimeCardPreview(sender: UIButton) {
+        performSegueWithIdentifier("viewPrintPreview", sender: self)
+    }
+    
     func addPrintButton() -> UIBarButtonItem {
         let button: UIButton = UIButton(type: UIButtonType.Custom)
         button.backgroundColor = UIColor.whiteColor()
-        button.addTarget(self, action: "printButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "segueToTimeCardPreview:", forControlEvents: UIControlEvents.TouchUpInside)
         button.frame = CGRectMake(0, 0, getButtonFrameWidth(), 30)
         button.setImage(UIImage(named: "airprint"), forState: UIControlState.Normal)
         let navigationHeight: CGFloat = (navigationController?.navigationBar.bounds.height)! - 10
@@ -122,6 +126,13 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
             let object: Hours = self.fetchedResultsController.objectAtIndexPath(indexPath!) as! Hours
             controller.startTime = object.startTime!
             controller.endTime = object.endTime!
+        
+        } else if (segue.identifier! == "viewPrintPreview") {
+            let controller = segue.destinationViewController as! TimeCardPrintViewController
+            let timeCard: TimeCard = TimeCard()
+            timeCard.setEmployeeName((self.employee?.firstName)!)
+            timeCard.setTotalHoursWorked(self.totalTimeWorked)
+            controller.timeCard = timeCard
         } else {
             let controller = segue.destinationViewController as! SelectDateViewController
             controller.isStartDate = self.isStartDate
@@ -188,7 +199,7 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
         let  footerCell = tableView.dequeueReusableCellWithIdentifier("EmployeeHoursTableFooterViewCell") as! EmployeeHoursTableFooterView
         footerCell.backgroundColor = UIColor.lightGrayColor()
         footerCell.totalTimeLabel.text = "Total Time Worked"
-        footerCell.totalTimeDisplayLabel.text = Helpers().timeFormatted(Int(totalTimeWorked))
+        footerCell.totalTimeDisplayLabel.text = Helpers().timeFormatted(Int(self.totalTimeWorked))
         
         return footerCell
     }
@@ -280,28 +291,10 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
         
         do {
             let results = try self.managedObjectContext?.executeFetchRequest(fetchRequest) as NSArray?
-            totalTimeWorked = (results as! AnyObject).valueForKeyPath("@sum.timeWorked") as! Double
+            self.totalTimeWorked = (results as! AnyObject).valueForKeyPath("@sum.timeWorked") as! Double
         } catch {
             print("error")
             abort()
         }
-    }
-    
-    func printButton(sender: AnyObject) {
-        let printInfo = UIPrintInfo(dictionary:nil)
-        printInfo.outputType = UIPrintInfoOutputType.General
-        printInfo.jobName = "My Print Job"
-        printInfo.outputType = .General
-        
-        // Set up print controller
-        let printController = UIPrintInteractionController.sharedPrintController()
-        printController.printInfo = printInfo
-        
-        
-        // Assign a UIImage version of my UIView as a printing iten
-        printController.printingItem = self.view!.toImage()
-        
-        // Do it
-        printController.presentFromRect(self.view.frame, inView: self.view, animated: true, completionHandler: nil)
     }
 }

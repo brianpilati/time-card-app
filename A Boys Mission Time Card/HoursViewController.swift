@@ -31,10 +31,6 @@ class HoursViewController: UIViewController {
         self.buildLayout()
     }
     
-    func notifyMe() {
-       print("notiferMy")
-    }
-    
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.title = "\(employeeSingleton.getCurrentUserFirstName())'s Hours"
         self.setHoursButtonTitle()
@@ -46,8 +42,6 @@ class HoursViewController: UIViewController {
         } else {
             startTimeDisplayLabel.text = ""
         }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "notifyMe", name: workingTimerNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -111,10 +105,7 @@ class HoursViewController: UIViewController {
                 totalHoursWorked += endTime.timeIntervalSinceDate(item.startTime!)
             }
             hoursReportDisplayLabel.text = Helpers().timeFormatted(Int(totalHoursWorked))
-            let formatter = NSNumberFormatter()
-            formatter.numberStyle = .CurrencyStyle
-            let wages:String = formatter.stringFromNumber(totalHoursWorked / 3600.0)!
-            wagesReportDisplayLabel.text = "\(wages)"
+            wagesReportDisplayLabel.text = "\(Helpers().getWages(totalHoursWorked))"
         } catch {
             print("caught")
         }
@@ -347,11 +338,5 @@ class HoursViewController: UIViewController {
             let controller = segue.destinationViewController as! EmployeeTableViewController
             controller.managedObjectContext = self.managedObjectContext
         }
-    }
-    
-    // Mark: Delegation
-    
-    @IBAction func timerFinished() {
-        print("In the groove")
     }
 }
