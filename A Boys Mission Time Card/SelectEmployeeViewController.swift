@@ -10,9 +10,9 @@ import UIKit
 import CoreData
 
 class SelectEmployeeViewController: UIViewController, UIPickerViewDelegate {
-    @IBOutlet weak var pickerView: UIPickerView!
     var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var managedObjectContext: NSManagedObjectContext? = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    @IBOutlet weak var selectEmployeesPickerView: UIPickerView!
     
     var employeeArray = [Employees]()
     
@@ -20,12 +20,14 @@ class SelectEmployeeViewController: UIViewController, UIPickerViewDelegate {
         super.viewDidLoad()
         self.title = "Select Employee"
         
-        pickerView.delegate = self
+        self.selectEmployeesPickerView.frame = CGRectMake(0, 0, 300, 100)
+        
+        selectEmployeesPickerView.delegate = self
         self.loadEmployeesData()
         
         for (index, item) in employeeArray.enumerate() {
             if (item.employeeId == employeeSingleton.getCurrentUserId()) {
-                pickerView.selectRow(index, inComponent: 0, animated: true)
+                selectEmployeesPickerView.selectRow(index, inComponent: 0, animated: true)
             }
         }
     }
@@ -67,8 +69,8 @@ class SelectEmployeeViewController: UIViewController, UIPickerViewDelegate {
         var pickerLabel = view as! UILabel!
         if view == nil {  //if no label there yet
             pickerLabel = UILabel()
-            let hue = CGFloat(row)/CGFloat(employeeArray.count)
-            pickerLabel.backgroundColor = UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+            //let hue = CGFloat(row)/CGFloat(employeeArray.count)
+            //pickerLabel.backgroundColor = UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
         }
         let titleData = employeeArray[row]
         let myTitle = NSAttributedString(string: titleData.firstName!, attributes: [NSFontAttributeName:UIFont(name: "Georgia", size: 26.0)!,NSForegroundColorAttributeName:UIColor.blackColor()])
@@ -79,6 +81,8 @@ class SelectEmployeeViewController: UIViewController, UIPickerViewDelegate {
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         employeeSingleton.setCurrentEmployee(employeeArray[row])
+        NSNotificationCenter.defaultCenter().postNotificationName(redrawHoursNotification, object: self)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {

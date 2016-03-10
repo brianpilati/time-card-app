@@ -141,13 +141,13 @@
         <!--Select Employee View Controller-->
         <scene sceneID="aku-xu-pJz">
             <objects>
-                <viewController id="xI0-dJ-g6U" customClass="SelectEmployeeViewController" customModule="A_Boys_Mission_Time_Card" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="selectEmployeePopover" id="xI0-dJ-g6U" customClass="SelectEmployeeViewController" customModule="A_Boys_Mission_Time_Card" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pfP-A2-tGs">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" id="N4k-nI-2zo">
-                                <rect key="frame" x="9" y="222" width="600" height="216"/>
+                                <rect key="frame" x="9" y="29" width="176" height="216"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </pickerView>
                         </subviews>
@@ -155,12 +155,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="ov1-5Z-CSk"/>
                     <connections>
-                        <outlet property="pickerView" destination="N4k-nI-2zo" id="EOe-xR-dQ4"/>
+                        <outlet property="selectEmployeesPickerView" destination="N4k-nI-2zo" id="6Dk-xb-8VE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WzB-zi-hdG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-377.60000000000002" y="402.33333333333331"/>
+            <point key="canvasLocation" x="-378" y="402"/>
         </scene>
         <!--Edit Hours-->
         <scene sceneID="LfW-h4-xLI">
@@ -422,9 +422,14 @@
         <scene sceneID="0oE-O5-oS6">
             <objects>
                 <viewController storyboardIdentifier="mainViewController" id="mfr-ww-PQ0" customClass="HoursViewController" customModule="A_Boys_Mission_Time_Card" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="qhZ-R0-zCl"/>
+                    <navigationItem key="navigationItem" id="qhZ-R0-zCl">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="jMT-ZK-aOx"/>
+                    </navigationItem>
                     <connections>
-                        <segue destination="xI0-dJ-g6U" kind="push" identifier="showSelectEmployees" id="I8W-24-y6J"/>
+                        <outlet property="showEmployeesButton" destination="jMT-ZK-aOx" id="jom-mZ-Z66"/>
+                        <segue destination="xI0-dJ-g6U" kind="popover" identifier="showSelectEmployees" popoverAnchorBarButtonItem="jMT-ZK-aOx" id="I8W-24-y6J">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                         <segue destination="eek-CF-eoc" kind="push" identifier="showEmployees" id="t7W-Og-2UC"/>
                     </connections>
                 </viewController>

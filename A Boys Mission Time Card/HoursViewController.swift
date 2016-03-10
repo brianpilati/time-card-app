@@ -11,27 +11,35 @@ import CoreData
 
 
 
-class HoursViewController: UIViewController {
+class HoursViewController: UIViewController, UIPopoverPresentationControllerDelegate {
     var managedObjectContext: NSManagedObjectContext? = nil
     var hoursButton: UIButton = UIButton()
     let hoursReportDisplayLabel: UILabel = UILabel()
     let wagesReportDisplayLabel: UILabel = UILabel()
     let startTimeDisplayLabel: StartHourLabel = StartHourLabel()
     let endTimeDisplayLabel: EndHourLabel = EndHourLabel()
-    var secondsTimer: NSTimer? = nil
+    var secondsTimer = Timer()
     var employee: Employee = Employee()
+    @IBOutlet weak var showEmployeesButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Timer().startWorkingTimer()
         
         self.stylizeNavigationController()
         
         view.backgroundColor = UIColor.whiteColor()
         self.buildLayout()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "redrawView", name: redrawHoursNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "calculateCurrentTimeWorked", name: workingTimerNotification, object: nil)
+        self.redrawView()
+    }
+    
+    func redrawView() {
         self.navigationItem.title = "\(employeeSingleton.getCurrentUserFirstName())'s Hours"
         self.setHoursButtonTitle()
         self.calculateTotalHoursWorked()
@@ -40,6 +48,8 @@ class HoursViewController: UIViewController {
             self.startWorkingTimer()
             startTimeDisplayLabel.startTime = employee.getStartTime()
         } else {
+            self.stopWorkingTimer()
+            endTimeDisplayLabel.text = ""
             startTimeDisplayLabel.text = ""
         }
     }
@@ -61,8 +71,6 @@ class HoursViewController: UIViewController {
     }
     
     func setHoursButtonTitle() {
-        let greenColor: UIColor = UIColor(red: 38.0/255.0, green: 106.0/255.0, blue: 46.0/255.0, alpha: 1.0)
-        let redColor: UIColor = UIColor(red: 255.0/255.0, green: 0, blue: 0, alpha: 1.0)
         self.hoursButton.setTitle(determineHoursButton(), forState: .Normal)
         self.hoursButton.backgroundColor = employeeSingleton.isEmployeeWorking() ? redColor : greenColor
     }
@@ -113,11 +121,11 @@ class HoursViewController: UIViewController {
     }
     
     func startWorkingTimer() {
-        secondsTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "calculateCurrentTimeWorked", userInfo: nil, repeats: true)
+        secondsTimer.startWorkingTimer()
     }
     
     func stopWorkingTimer() {
-        secondsTimer?.invalidate()
+        secondsTimer.stopWorkingTimer()
     }
     
     func hoursButtonPressed(sender: UIButton) {
@@ -292,14 +300,9 @@ class HoursViewController: UIViewController {
         performSegueWithIdentifier("showEmployees", sender: self)
     }
     
-    func segueToSelectEmployee(sender: UIButton) {
-        performSegueWithIdentifier("showSelectEmployees", sender: self)
-    }
-    
     func stylizeNavigationController() {
         self.navigationItem.setLeftBarButtonItems([addProfileButton()], animated: true)
         self.navigationItem.setRightBarButtonItems([addEmployeesButton()], animated: true)
-        navigationController?.navigationBar.barTintColor = UIColor.blueColor()
     }
     
     override func didReceiveMemoryWarning() {
@@ -309,13 +312,14 @@ class HoursViewController: UIViewController {
 
     func addProfileButton() -> UIBarButtonItem {
         let button: UIButton = UIButton(type: UIButtonType.Custom)
-        button.addTarget(self, action: "segueToSelectEmployee:", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "showPopover:", forControlEvents: UIControlEvents.TouchUpInside)
         button.frame = CGRectMake(0, 0, getButtonFrameWidth(), 30)
         button.setImage(UIImage(named: "genericPersonImage.png"), forState: UIControlState.Normal)
         let navigationHeight: CGFloat = (navigationController?.navigationBar.bounds.height)! - 10
         
         button.frame = CGRect(x:0, y:0, width:navigationHeight, height:navigationHeight)
-        return UIBarButtonItem(customView: button)
+        showEmployeesButton.customView = button
+        return showEmployeesButton
     }
     
     func addEmployeesButton() -> UIBarButtonItem {
@@ -329,6 +333,33 @@ class HoursViewController: UIViewController {
     
     func getButtonFrameWidth() -> CGFloat {
         return (UIScreen.mainScreen().bounds.width / 8 as CGFloat)
+    }
+    
+    @IBAction func showPopover(sender: AnyObject) {
+        self.stopWorkingTimer()
+        let popoverContent = self.storyboard?.instantiateViewControllerWithIdentifier("selectEmployeePopover") as! SelectEmployeeViewController
+        
+        popoverContent.modalPresentationStyle = .Popover
+        _ = popoverContent.popoverPresentationController
+        
+        if let popover = popoverContent.popoverPresentationController {
+            
+            let viewForSource = sender as! UIView
+            popover.sourceView = viewForSource
+            
+            // the position of the popover where it's showed
+            popover.sourceRect = viewForSource.bounds
+            
+            // the size you want to display
+            popoverContent.preferredContentSize = CGSizeMake(300,100)
+            popover.delegate = self
+        }
+        
+        self.presentViewController(popoverContent, animated: true, completion: nil)
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .None
     }
     
     

@@ -66,7 +66,6 @@ class EmployeeViewController: UIViewController, UITableViewDelegate,   NSFetched
     
     func stylizeNavigationController() {
         self.navigationItem.setRightBarButtonItems([addPrintButton()], animated: true)
-        self.navigationController?.navigationBar.barTintColor = UIColor.blueColor()
     }
     
     func segueToTimeCardPreview(sender: UIButton) {

@@ -16,7 +16,7 @@ class Timer: NSNotificationCenter {
     }
 
     func startWorkingTimer() {
-        secondsTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "calculateCurrentTimeWorked", userInfo: nil, repeats: true)
+        self.secondsTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "calculateCurrentTimeWorked", userInfo: nil, repeats: true)
     }
     
     func calculateCurrentTimeWorked() {
@@ -24,6 +24,7 @@ class Timer: NSNotificationCenter {
     }
     
     func stopWorkingTimer() {
-        secondsTimer?.invalidate()
+        self.secondsTimer?.invalidate()
+        self.secondsTimer = nil
     }
 }
